@@ -10,10 +10,10 @@
 
 <p align="center">
     <a alt="Node.js">
-        <img src="https://img.shields.io/badge/Node.js-LTS-green.svg" />
+        <img src="https://img.shields.io/badge/Node.js-18%20LTS-green.svg" />
     </a>
     <a alt="Java">
-      <img src="https://img.shields.io/badge/Java-1.8-orange.svg" />
+      <img src="https://img.shields.io/badge/Java-1.8+-orange.svg" />
     </a>
     <a alt="Docker">
         <img src="https://img.shields.io/badge/Docker-18.09-yellowgreen.svg" />
@@ -434,9 +434,8 @@ Please follow this [link](https://kubernetes.io/docs/tasks/access-application-cl
 There are some assumptions that we are making (before you can run the build and deploy command) like you have the following pre-installed on the node/environment where this cluster is being set up -
 
 1. [Docker](https://www.docker.com/)
-2. [Maven](https://maven.apache.org/)
-3. [NPM](https://nodejs.org/en/)
-4. [Kubectl](https://kubernetes.io/docs/reference/kubectl/overview/)
+2. [NPM](https://nodejs.org/en/)
+3. [Kubectl](https://kubernetes.io/docs/reference/kubectl/overview/)
 
 Once these are setup, please execute the following command from the root directory of this repo:
 
@@ -446,20 +445,79 @@ sh build-deploy.sh
 
 This command is equipped to prepare all the docker containers needed for the setup of this application. It will create them all one by one and finally execute the configurations placed in the **k8s** directory which will result in the creation of various artifacts on the kubernetes cluster.
 
+### Verifying the Deployment
+
+After running the build-deploy script, verify all components are running:
+
+```bash
+# Check all pods are running (may take 1-2 minutes)
+kubectl get pods
+
+# Expected output - all should show STATUS: Running
+# ambassador-xxx        1/1     Running
+# express-svc-xxx       1/1     Running
+# happy-svc-xxx         1/1     Running
+# bootstorage-svc-xxx   1/1     Running
+# vuecalc-svc-xxx       1/1     Running
+# redis-0               1/1     Running
+
+# Check services are created
+kubectl get svc
+
+# Check deployments are ready
+kubectl get deployments
+```
+
+**Troubleshooting:**
+If pods are not running:
+```bash
+# Check pod status and errors
+kubectl describe pod <pod-name>
+kubectl logs <pod-name>
+
+# Common issues:
+# - ImagePullBackOff: Images not available (may need to import into k3d)
+# - CrashLoopBackOff: Check logs for application errors
+```
+
+**For k3d users:** After building images, import them into the cluster:
+```bash
+k3d image import expressed:latest happy:latest bootstorage:latest vuecalc:latest -c mycluster
+```
+
+### Accessing the Application
+
+Once deployed, access the calculator:
+
+**Port Forward (Recommended for local development):**
+```bash
+kubectl port-forward svc/ambassador 8080:80
+```
+Then open: http://localhost:8080
+
+**NodePort (k3d/minikube):**
+```bash
+kubectl get svc ambassador
+# Note the NodePort (e.g., 80:31439/TCP means NodePort is 31439)
+# Access via: http://localhost:31439
+```
+
 ## Important Kubernetes Commands ##
 Here are some basic commands for using Kubernetes command line utility:
 
 
 1. **kubectl proxy** (Run kubernetes dashboard)
-2. **kubectl describe secret admin-user-token-6kchd -n kube-system** (Generate token)
-3. **kubectl create -f k8s** (Deploy to kubernetes)
+2. **kubectl get secrets -n kube-system** (List secrets to find admin token)
+3. **kubectl apply -f k8s** (Deploy or update resources in kubernetes)
 4. **kubectl get deployments** (Check existing deployments)
 5. **kubectl get services** (Check existing services)
-6. **kubectl set image deployments expressed expressed=expressed:latest** (Update image for Deployment)
-7. **kubectl rollout status deployments expressed** (Check status of updated rollout)
-8. **kubectl scale --replicas=0 deployment express-svc** (Scale down any deployment)
-9. **kubectl scale --replicas=1 deployment express-svc** (Scale up a deployment)
-10. **docker image prune** (Remove all dangling images)
+6. **kubectl set image deployment/express-svc express-svc=expressed:latest** (Update image for Deployment)
+7. **kubectl rollout status deployment/express-svc** (Check status of updated rollout)
+8. **kubectl scale --replicas=0 deployment/express-svc** (Scale down any deployment)
+9. **kubectl scale --replicas=1 deployment/express-svc** (Scale up a deployment)
+10. **docker image prune -f** (Remove all dangling images)
+
+**Note:** Use `kubectl apply` instead of `kubectl create` to make commands idempotent (safe to run multiple times).
 
 
 ## Contributor ##

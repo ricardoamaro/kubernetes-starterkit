@@ -1,7 +1,7 @@
 'use strict';
 
-const Hapi = require('hapi');
-const request = require('request');
+const Hapi = require('@hapi/hapi');
+const axios = require('axios');
 
 const server = Hapi.server({
     port: 4000,
@@ -67,21 +67,16 @@ function postToBootStorage(num1, num2, operation, result){
          };
   
   console.log("Sending create operation request to Spring Boot service 'bootstorage'. Data = ", JSON.stringify(data));
-  request({
-      url: "http://bootstorage-svc:5000/api/bootstorage/create",
-      method: "POST",
-      json: true,
-      body: data
-  }, function (error, response, body){
-    console.log("Received response from Spring Boot service 'bootstorage'");
-      //console.log("response = " + JSON.stringify(response));
-      if(error){
-        console.log("error = " + error);
-      }
+  axios.post('http://bootstorage-svc:5000/api/bootstorage/create', data)
+    .then(response => {
+      console.log("Received response from Spring Boot service 'bootstorage'");
       if(process.env.LOG_LEVEL == 'DEBUG'){
-        console.log("body = " + JSON.stringify(body));
+        console.log("body = " + JSON.stringify(response.data));
       }
-  });
+    })
+    .catch(error => {
+      console.log("error = " + error.message);
+    });
 };
 
 server.events.on('response', function (request) {

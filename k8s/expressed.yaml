@@ -16,7 +16,7 @@ spec:
   sessionAffinity: None
   type: ClusterIP
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -40,7 +40,7 @@ spec:
     spec:
       containers:
       - image: expressed:latest
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         name: express-svc
         env:
           - name: MY_SECRET

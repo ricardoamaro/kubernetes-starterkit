@@ -16,7 +16,7 @@ spec:
   sessionAffinity: None
   type: ClusterIP
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -40,7 +40,7 @@ spec:
     spec:
       containers:
       - image: happy:latest
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         name: happy-svc
         env:
           - name: LOG_LEVEL

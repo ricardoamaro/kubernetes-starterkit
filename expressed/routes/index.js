@@ -1,12 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var request = require('request');
-
-router.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+var axios = require('axios');
 
 /* GET home page. */
 router.get('/api/express', function(req, res, next) {
@@ -45,21 +39,16 @@ function postToBootStorage(num1, num2, operation, result){
 			   };
 	
 	console.log("Sending create operation request to Spring Boot service 'bootstorage'. Data = ", JSON.stringify(data));
-	request({
-	    url: "http://bootstorage-svc:5000/api/bootstorage/create",
-	    method: "POST",
-	    json: true,
-	    body: data
-	}, function (error, response, body){
-		console.log("Received response from Spring Boot service 'bootstorage'");
-		//console.log("response = " + JSON.stringify(response));
-      	if(error){
-        	console.log("error = " + error);
-      	}
-      	if(process.env.LOG_LEVEL == 'DEBUG'){
-      		console.log("body = " + JSON.stringify(body));
-      	}
-	});
+	axios.post('http://bootstorage-svc:5000/api/bootstorage/create', data)
+		.then(response => {
+			console.log("Received response from Spring Boot service 'bootstorage'");
+			if(process.env.LOG_LEVEL == 'DEBUG'){
+				console.log("body = " + JSON.stringify(response.data));
+			}
+		})
+		.catch(error => {
+			console.log("error = " + error.message);
+		});
 }
 
 module.exports = router;
