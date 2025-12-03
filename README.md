@@ -476,6 +476,174 @@ kubectl describe pod <pod-name>
 kubectl logs <pod-name>
 
 # Common issues:
+Array [ "7", "1" ]
+Calculator.vue:166:1
+7 Calculator.vue:167:1
+/ Calculator.vue:168:1
+Hitting web api for division Calculator.vue:110:1
+Returned result=7 Calculator.vue:112:1
+result:7 Calculator.vue:170:1
+Array [ "77", "1" ]
+Calculator.vue:166:1
+7 Calculator.vue:167:1
+x Calculator.vue:168:1
+Hitting web api for multiply Calculator.vue:96:1
+Returned result=77 Calculator.vue:98:1
+result:77 Calculator.vue:170:1
+Array [ "777", "1" ]
+​
+0: "777"
+​
+1: "1"
+​
+length: 2
+​
+<prototype>: Array []
+​​
+at: function at()
+​​
+concat: function concat()
+​​
+constructor: function Array()
+​​
+copyWithin: function copyWithin()
+​​
+entries: function entries()
+​​
+every: function every()
+​​
+fill: function fill()
+​​
+filter: function filter()
+​​
+find: function find()
+​​
+findIndex: function findIndex()
+​​
+findLast: function findLast()
+​​
+findLastIndex: function findLastIndex()
+​​
+flat: function flat()
+​​
+flatMap: function flatMap()
+​​
+forEach: function forEach()
+​​
+includes: function includes()
+​​
+indexOf: function indexOf()
+​​
+join: function join()
+​​
+keys: function keys()
+​​
+lastIndexOf: function lastIndexOf()
+​​
+length: 0
+​​
+map: function map()
+​​
+pop: function pop()
+​​
+push: function push()
+​​
+reduce: function reduce()
+​​
+reduceRight: function reduceRight()
+​​
+reverse: function reverse()
+​​
+shift: function shift()
+​​
+slice: function slice()
+​​
+some: function some()
+​​
+sort: function sort()
+​​
+splice: function splice()
+​​
+toLocaleString: function toLocaleString()
+​​
+toReversed: function toReversed()
+​​
+toSorted: function toSorted()
+​​
+toSpliced: function toSpliced()
+​​
+toString: function toString()
+​​
+unshift: function unshift()
+​​
+values: function values()
+​​
+with: function with()
+​​
+Symbol(Symbol.iterator): function values()
+​​
+Symbol(Symbol.unscopables): Object { at: true, copyWithin: true, entries: true, … }
+​​
+<prototype>: Object { … }
+Calculator.vue:166:1
+7 Calculator.vue:167:1
+- Calculator.vue:168:1
+Hitting web api for subtraction Calculator.vue:85:1
+XHRGET
+http://localhost:8080/api/express/subtract?num1=777&num2=1
+[HTTP/1.1 503 Service Unavailable 9ms]
+
+	
+GET
+	http://localhost:8080/api/express/subtract?num1=777&num2=1
+Status
+503
+Service Unavailable
+VersionHTTP/1.1
+Transferred191 B (57 B size)
+Referrer Policystrict-origin-when-cross-origin
+Request PriorityHighest
+DNS ResolutionSystem
+
+	
+content-length
+	57
+content-type
+	text/plain
+date
+	Wed, 03 Dec 2025 10:36:43 GMT
+server
+	envoy
+	
+Accept
+	application/json
+Accept-Encoding
+	gzip, deflate, br, zstd
+Accept-Language
+	en-US,pt;q=0.7,en;q=0.3
+Connection
+	keep-alive
+DNT
+	1
+Host
+	localhost:8080
+Priority
+	u=0
+Referer
+	http://localhost:8080/
+Sec-Fetch-Dest
+	empty
+Sec-Fetch-Mode
+	cors
+Sec-Fetch-Site
+	same-origin
+User-Agent
+	Mozilla/5.0 (X11; Linux x86_64; rv:145.0) Gecko/20100101 Firefox/145.0
+result:AxiosError: Request failed with status code 503 Calculator.vue:170:1
+
+AxiosError: Request failed with status code 503
+
+
 # - ImagePullBackOff: Images not available (may need to import into k3d)
 # - CrashLoopBackOff: Check logs for application errors
 ```
