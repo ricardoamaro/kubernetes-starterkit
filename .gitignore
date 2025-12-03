@@ -107,8 +107,9 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
-# bin directory
+# bin directory (except Express entry point)
 bin/*
+!**/bin/www
 
 # dist directory
 dist/*

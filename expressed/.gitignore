@@ -106,6 +106,4 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
-
-# bin directory
 bin/*
