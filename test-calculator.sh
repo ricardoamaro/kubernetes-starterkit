@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Calculator API Test Script
 # Tests all calculator operations via the Ambassador gateway
 
