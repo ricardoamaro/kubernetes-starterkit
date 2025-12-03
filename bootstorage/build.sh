@@ -1,1 +1,1 @@
-./mvnw package && docker build -t bootstorage .
+docker build -t bootstorage .

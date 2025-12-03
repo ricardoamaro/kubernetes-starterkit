@@ -1,8 +1,13 @@
-/src
-.pom.xml
-/.git
+# Ignore build output (we build inside Docker now)
+target/
 
-/.settings
+# Git
+.git/
+
+# IDE files
+.settings/
 .classpath
 .project
+.idea/
+*.iml
 .springBeans
