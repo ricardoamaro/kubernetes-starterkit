@@ -1,5 +1,6 @@
 # Build stage - compile the application
-FROM eclipse-temurin:11-jdk-alpine AS builder
+# Using jammy (Ubuntu 22.04) for multi-arch support (amd64 + arm64)
+FROM eclipse-temurin:11-jdk-jammy AS builder
 
 WORKDIR /build
 
@@ -16,7 +17,8 @@ COPY src src
 RUN ./mvnw package -DskipTests -B
 
 # Runtime stage - smaller image with just JRE
-FROM eclipse-temurin:11-jre-alpine
+# Using jammy for multi-arch support (amd64 + arm64)
+FROM eclipse-temurin:11-jre-jammy
 
 WORKDIR /usr/spring/bootstorage
 
